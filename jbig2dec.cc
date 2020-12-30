@@ -69,7 +69,6 @@ namespace fxcodec
     pitch *= 4;  // and then back to bytes, (not just /8 in one step).
     return pitch;
   }
-
 } // namespace fxcodec
 
 void FX_Free(void *ptr)
