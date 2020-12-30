@@ -3,16 +3,10 @@ package main
 import (
 	"bytes"
 	"encoding/binary"
+	"github.com/jdeng/jbig2dec"
 	"io/ioutil"
 	"log"
-	"unsafe"
 )
-
-//#cgo CXXFLAGS: -Ipdfium
-//#include <stdlib.h>
-//typedef unsigned char uint8_t;
-//extern int jbig2Decode(int width, int height, const uint8_t *data, size_t len, uint8_t *buf);
-import "C"
 
 type bmpHeader struct {
 	sigBM           [2]byte
@@ -67,21 +61,15 @@ func saveBitmap(fn string, width, height int, data []byte) error {
 
 func main() {
 	width, height := 2242, 3136
-	pitch := (width + 31) / 32 * 4
-
 	data, err := ioutil.ReadFile("1.jb2")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	buf := C.malloc(C.size_t(height * pitch))
-	defer C.free(buf)
-
-	ret := C.jbig2Decode(C.int(width), C.int(height), (*C.uint8_t)(unsafe.Pointer(&data[0])), C.size_t(len(data)), (*C.uint8_t)(buf))
-	if ret != 0 {
-		log.Fatal("Failed to decode")
+	out, err := jbig2dec.Decode(width, height, data)
+	if err != nil {
+		log.Fatal(err)
 	}
 
-	out := C.GoBytes(buf, C.int(height*pitch))
 	saveBitmap("1.bmp", width, height, out)
 }
