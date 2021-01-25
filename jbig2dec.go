@@ -5,7 +5,7 @@ import (
 	"unsafe"
 )
 
-//#cgo CXXFLAGS: -Ipdfium
+//#cgo CXXFLAGS: -Ipdfium -std=c++14
 //#include <stdlib.h>
 //typedef unsigned char uint8_t;
 //extern int jbig2Decode(int width, int height, const uint8_t *data, size_t len, uint8_t *buf);
