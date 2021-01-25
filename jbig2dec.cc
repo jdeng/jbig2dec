@@ -19,6 +19,7 @@
 
 #include "pdfium/core/fxcodec/scanlinedecoder.cpp"
 #include "pdfium/core/fxcodec/fax/faxmodule.cpp"
+#include "pdfium/core/fxcrt/cfx_binarybuf.cpp"
 
 namespace pdfium
 {
